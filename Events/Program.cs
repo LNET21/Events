@@ -11,17 +11,15 @@ namespace Events
             transaction.StartTransaction();
         }
 
-        private static void AfterComplete()
+        private static void AfterComplete(object sender, EventArgs e)
         {
             Console.WriteLine("Completed");
         }
     }
 
-    public delegate void Notify();
-
     public class Transaction
     {
-        public Notify TransactionComplete { get; set; }
+        public event EventHandler TransactionComplete;
 
         public void StartTransaction()
         {
@@ -32,7 +30,7 @@ namespace Events
 
         protected virtual void OnTransactionComplete()
         {
-            TransactionComplete?.Invoke();
+            TransactionComplete?.Invoke(this, EventArgs.Empty);
         }
     }
 }
